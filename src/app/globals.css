@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #faf9f7;
+  --color-surface: #ffffff;
+  --color-foreground: #1a1f1e;
+  --color-muted: #5c6563;
+  --color-border: #e5e2dc;
+  --color-primary: #0d5c56;
+  --color-primary-hover: #0a4a45;
+  --color-accent: #7ecfc4;
+  --color-accent-soft: #e8f5f3;
+  --color-warning: #c47d2a;
+  --color-success: #2d7a4f;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --radius-card: 12px;
+  --shadow-card: 0 1px 3px rgb(26 31 30 / 0.06), 0 4px 12px rgb(26 31 30 / 0.04);
+  --shadow-elevated: 0 8px 30px rgb(26 31 30 / 0.1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
