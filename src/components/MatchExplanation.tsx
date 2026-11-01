@@ -1,5 +1,7 @@
 import type { RecommendationResult } from "@/types";
 import { formatINR } from "@/lib/booking";
+import { dummyImage } from "@/lib/dummy-image";
+import Image from "next/image";
 
 interface Props {
   result: RecommendationResult;
@@ -11,10 +13,24 @@ export function MatchExplanation({ result }: Props) {
   const top = result.services[0];
 
   return (
-    <aside className="rounded-[var(--radius-card)] border border-primary/20 bg-accent-soft/40 p-5">
-      <h3 className="text-sm font-bold uppercase tracking-wide text-primary">
-        Explain my match
+    <aside className="overflow-hidden rounded-[var(--radius-card)] border border-border bg-surface shadow-sm">
+      <div className="relative h-28">
+        <Image
+          src={dummyImage(`match-${top.service.id}`, 400, 200)}
+          alt=""
+          fill
+          className="object-cover"
+          sizes="340px"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
+      </div>
+      <div className="p-5">
+      <h3 className="text-sm font-bold uppercase tracking-wide text-uc-accent">
+        Explain my match (dummy)
       </h3>
+      <p className="mt-2 text-xs text-muted">
+        Placeholder breakdown of how the rule engine scored your request against sample services.
+      </p>
       <dl className="mt-4 space-y-3 text-sm">
         <div>
           <dt className="text-xs font-medium text-muted">Problem detected</dt>
@@ -49,6 +65,7 @@ export function MatchExplanation({ result }: Props) {
           </div>
         )}
       </dl>
+      </div>
     </aside>
   );
 }

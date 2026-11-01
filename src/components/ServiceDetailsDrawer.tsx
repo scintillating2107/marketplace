@@ -1,10 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import { X, Star, Check, Minus } from "lucide-react";
 import type { Service } from "@/types";
 import { formatINR } from "@/lib/booking";
 import { Button } from "@/components/ui/Button";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 interface Props {
   service: Service | null;
@@ -14,6 +16,9 @@ interface Props {
 }
 
 export function ServiceDetailsDrawer({ service, open, onClose, onBook }: Props) {
+  const panelRef = useRef<HTMLElement>(null);
+  useDialogA11y(open, onClose, panelRef);
+
   if (!open || !service) return null;
 
   return (
@@ -24,7 +29,10 @@ export function ServiceDetailsDrawer({ service, open, onClose, onBook }: Props) 
         aria-hidden
       />
       <aside
+        ref={panelRef}
+        tabIndex={-1}
         role="dialog"
+        aria-modal="true"
         aria-labelledby="service-drawer-title"
         className="relative z-10 flex h-full w-full max-w-lg flex-col bg-surface shadow-elevated motion-safe:animate-[slide-in-right_250ms_ease-out]"
       >

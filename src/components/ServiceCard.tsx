@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 interface Props {
   service: Service;
   onExplore?: () => void;
-  onBook?: () => void;
   selectable?: boolean;
   selected?: boolean;
   onToggleSelect?: () => void;
@@ -20,11 +19,10 @@ interface Props {
 export function ServiceCard({
   service,
   onExplore,
-  onBook,
   selectable,
   selected,
   onToggleSelect,
-  compact,
+  compact = true,
 }: Props) {
   const availabilityLabel =
     service.availability === "available"
@@ -40,7 +38,7 @@ export function ServiceCard({
         selected && "ring-2 ring-primary"
       )}
     >
-      <div className="relative aspect-[16/10]">
+      <div className="relative aspect-[4/5] sm:aspect-[5/6]">
         <Image
           src={service.image}
           alt=""
@@ -59,9 +57,6 @@ export function ServiceCard({
             Compare
           </label>
         )}
-        <span className="absolute bottom-3 right-3 rounded-md bg-surface/95 px-2 py-0.5 text-[10px] font-medium text-muted">
-          Sample pricing
-        </span>
       </div>
       <div className={cn("flex flex-1 flex-col p-4", compact && "p-3")}>
         <h3 className="font-semibold leading-snug text-foreground">{service.title}</h3>
@@ -82,21 +77,22 @@ export function ServiceCard({
           </span>
           <span>{availabilityLabel}</span>
         </div>
-        <div className="mt-auto flex gap-2 pt-4">
+        <div className="mt-auto flex flex-col gap-2 pt-4 sm:flex-row">
           <Button
             type="button"
             variant="outline"
             size="sm"
-            className="flex-1"
+            className="min-h-10 flex-1"
             onClick={onExplore}
           >
             Explore
           </Button>
-          {onBook && (
-            <Button type="button" size="sm" className="flex-1" onClick={onBook}>
-              Book
-            </Button>
-          )}
+          <a
+            href={`/book?serviceId=${service.id}`}
+            className="inline-flex min-h-10 flex-1 items-center justify-center rounded-full bg-foreground px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-hover"
+          >
+            Book
+          </a>
         </div>
       </div>
     </article>

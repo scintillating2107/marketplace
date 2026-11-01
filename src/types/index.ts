@@ -73,6 +73,7 @@ export interface Professional {
   availability: "today" | "tomorrow" | "this_week";
   arrivalEstimate: string;
   categoryIds: ServiceCategoryId[];
+  bio?: string;
 }
 
 export type BookingStatus =

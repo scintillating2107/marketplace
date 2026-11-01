@@ -80,13 +80,13 @@ interface FlowProps {
 
 export function BookingFlowProgress({ step }: FlowProps) {
   return (
-    <nav aria-label="Booking progress" className="mb-8">
-      <ol className="flex flex-wrap gap-2">
+    <nav aria-label="Booking progress" className="mb-6 sm:mb-8">
+      <ol className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
         {BOOKING_FLOW_STEPS.map((label, i) => (
           <li
             key={label}
             className={cn(
-              "rounded-full px-3 py-1 text-xs font-medium",
+              "shrink-0 rounded-full px-3 py-1.5 text-[11px] font-medium sm:text-xs",
               i <= step ? "bg-primary text-white" : "bg-border/60 text-muted"
             )}
           >

@@ -55,6 +55,9 @@ export function ProfessionalCard({ match, selected, onSelect, recommended }: Pro
         </div>
       </div>
       <p className="mt-2 text-xs text-muted">{professional.skills.join(" · ")}</p>
+      {professional.bio && (
+        <p className="mt-2 text-xs leading-relaxed text-muted">{professional.bio}</p>
+      )}
       <p className="mt-2 rounded-lg bg-background px-2 py-1.5 text-xs text-muted">
         {reason}
       </p>

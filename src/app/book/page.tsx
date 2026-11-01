@@ -10,13 +10,14 @@ import {
   calculatePriceBreakdown,
   formatINR,
   generateBookingReference,
-  loadBookings,
   matchProfessionals,
-  saveBookings,
 } from "@/lib/booking";
+import { saveBookingForUser } from "@/lib/bookings-persist";
 import { useApp } from "@/context/AppContext";
 import type { StoredBooking } from "@/types";
 import { BookingFlowProgress } from "@/components/BookingProgress";
+import { PageBanner } from "@/components/PageBanner";
+import { PAGE_HEROES } from "@/data/content";
 import { ProfessionalCard } from "@/components/ProfessionalCard";
 import { BookingScheduler } from "@/components/BookingScheduler";
 import { PriceBreakdownView } from "@/components/PriceBreakdown";
@@ -25,7 +26,7 @@ import { Button } from "@/components/ui/Button";
 function BookContent() {
   const router = useRouter();
   const params = useSearchParams();
-  const { location } = useApp();
+  const { location, user } = useApp();
   const serviceId = params.get("serviceId") ?? "";
   const service = getServiceById(serviceId);
 
@@ -70,12 +71,19 @@ function BookContent() {
 
   if (!service) {
     return (
-      <div className="container-page py-20 text-center">
-        <h1 className="text-xl font-bold">Select a service first</h1>
-        <Link href="/explore" className="mt-4 inline-block text-primary underline">
-          Explore services
-        </Link>
-      </div>
+      <>
+        <PageBanner {...PAGE_HEROES.book} />
+        <div className="container-page py-20 text-center">
+          <h1 className="text-xl font-bold">Select a service first</h1>
+          <p className="mx-auto mt-3 max-w-md text-sm text-muted">
+            Choose a service from Explore or the homepage to see packages, matched professionals, and
+            a full price breakdown — all dummy data for this prototype.
+          </p>
+          <Link href="/explore" className="mt-6 inline-block text-primary underline">
+            Explore services
+          </Link>
+        </div>
+      </>
     );
   }
 
@@ -88,7 +96,7 @@ function BookContent() {
     return Object.keys(next).length === 0;
   };
 
-  const confirmBooking = () => {
+  const confirmBooking = async () => {
     if (!selectedPackage) return;
     const pro = matches.find((m) => m.professional.id === professionalId)?.professional;
     if (!pro) return;
@@ -114,8 +122,7 @@ function BookContent() {
       createdAt: new Date().toISOString(),
     };
 
-    const all = loadBookings();
-    saveBookings([booking, ...all]);
+    await saveBookingForUser(booking, !!user);
     setConfirmed(booking);
     setStep(4);
   };
@@ -141,22 +148,33 @@ function BookContent() {
         </div>
         <p className="mt-4 text-xs text-muted">
           No payment processed. Professional dispatch is simulated.
+          {!user && " Sign in from the header to sync this booking to your account."}
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button onClick={() => router.push("/dashboard")}>View My Bookings</Button>
-          <Button variant="outline" onClick={() => router.push("/explore")}>
+          <a
+            href="/dashboard"
+            className="inline-flex items-center justify-center rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-white hover:bg-primary-hover"
+          >
+            View My Bookings
+          </a>
+          <Link
+            href="/explore"
+            className="inline-flex items-center justify-center rounded-full border border-border bg-surface px-4 py-2 text-sm font-semibold hover:border-foreground/30"
+          >
             Explore more
-          </Button>
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container-page py-10">
+    <>
+      <PageBanner {...PAGE_HEROES.book} />
+      <div className="container-page py-6 sm:py-10">
       <BookingFlowProgress step={step} />
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_360px]">
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-10">
         <div>
           {step === 0 && (
             <section>
@@ -315,7 +333,8 @@ function BookContent() {
           )}
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef } from "react";
 import { X } from "lucide-react";
 import type { Service } from "@/types";
 import { formatINR } from "@/lib/booking";
 import { Button } from "@/components/ui/Button";
+import { useDialogA11y } from "@/hooks/useDialogA11y";
 
 interface Props {
   services: Service[];
@@ -12,6 +14,9 @@ interface Props {
 }
 
 export function ComparisonModal({ services, open, onClose }: Props) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  useDialogA11y(open, onClose, panelRef);
+
   if (!open || services.length === 0) return null;
 
   const highlight = (values: (string | number)[], index: number) => {
@@ -26,11 +31,18 @@ export function ComparisonModal({ services, open, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-foreground/50" onClick={onClose} />
-      <div className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl bg-surface p-6 shadow-elevated">
+      <div className="absolute inset-0 bg-foreground/50 motion-safe:animate-[fade-in_200ms_ease-out]" onClick={onClose} aria-hidden />
+      <div
+        ref={panelRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="compare-modal-title"
+        className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-auto rounded-2xl bg-surface p-6 shadow-elevated motion-safe:animate-[fade-in_220ms_ease-out]"
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold">Compare services</h2>
+            <h2 id="compare-modal-title" className="text-xl font-bold">Compare services</h2>
             <p className="mt-1 text-sm text-muted">
               Meaningful differences highlighted — lower price and higher ratings stand out.
             </p>

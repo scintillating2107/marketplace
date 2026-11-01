@@ -6,10 +6,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, X } from "lucide-react";
 import { categories, services as allServices } from "@/data/services";
 import { filterServices } from "@/lib/booking";
+import { PAGE_HEROES } from "@/data/content";
 import type { Service } from "@/types";
 import { ServiceCard } from "@/components/ServiceCard";
 import { SearchBar } from "@/components/SearchBar";
 import { Button } from "@/components/ui/Button";
+import { PageBanner } from "@/components/PageBanner";
 
 const ServiceDetailsDrawer = dynamic(
   () =>
@@ -52,6 +54,23 @@ function ExploreContent() {
     setCategory(searchParams.get("category") ?? "all");
   }, [searchParams]);
 
+  useEffect(() => {
+    const handle = window.setTimeout(() => {
+      const params = new URLSearchParams();
+      if (query.trim()) params.set("q", query.trim());
+      if (category !== "all") params.set("category", category);
+      const next = params.toString();
+      const current =
+        typeof window !== "undefined"
+          ? window.location.search.replace(/^\?/, "")
+          : searchParams.toString();
+      if (next !== current) {
+        router.replace(next ? `/explore?${next}` : "/explore", { scroll: false });
+      }
+    }, 500);
+    return () => window.clearTimeout(handle);
+  }, [query, category, router, searchParams]);
+
   const results = useMemo(
     () =>
       filterServices({
@@ -92,14 +111,11 @@ function ExploreContent() {
   );
 
   return (
-    <div className="container-page py-10">
-      <header className="max-w-2xl">
-        <h1 className="text-3xl font-bold">Find the Right Service for You</h1>
-        <p className="mt-2 text-muted">
-          Search, filter, and compare — then book in a few guided steps.
-        </p>
+    <>
+      <PageBanner title={PAGE_HEROES.explore.title} image={PAGE_HEROES.explore.image} />
+      <div className="container-page py-6 sm:py-8">
         <form
-          className="mt-6"
+          className="max-w-xl"
           onSubmit={(e) => {
             e.preventDefault();
           }}
@@ -107,12 +123,11 @@ function ExploreContent() {
           <SearchBar
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name or keyword"
+            placeholder="Search services"
           />
         </form>
-      </header>
 
-      <div className="mt-8 flex gap-2 overflow-x-auto pb-2">
+      <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
         <button
           type="button"
           onClick={() => setCategory("all")}
@@ -136,11 +151,11 @@ function ExploreContent() {
         ))}
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <p className="text-sm text-muted">
-          <span className="font-semibold text-foreground">{results.length}</span> services match
+          <span className="font-semibold text-foreground">{results.length}</span> results
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 max-sm:[&_button]:flex-1 max-sm:[&_button]:justify-center">
           <Button type="button" variant="outline" size="sm" onClick={() => setFiltersOpen(!filtersOpen)}>
             <SlidersHorizontal className="h-4 w-4" />
             Filters
@@ -205,16 +220,15 @@ function ExploreContent() {
       )}
 
       {results.length === 0 ? (
-        <div className="mt-12 flex flex-col items-center py-16 text-center">
-          <X className="h-10 w-10 text-muted" />
-          <h2 className="mt-4 text-lg font-semibold">No services match</h2>
-          <p className="mt-2 text-sm text-muted">Try clearing filters or a broader search term.</p>
-          <Button type="button" className="mt-6" onClick={clearFilters}>
+        <div className="mt-12 flex flex-col items-center rounded-xl border border-border px-6 py-12 text-center">
+          <X className="h-8 w-8 text-muted" />
+          <h2 className="mt-3 font-semibold">No results</h2>
+          <Button type="button" className="mt-4" onClick={clearFilters}>
             Clear filters
           </Button>
         </div>
       ) : (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-2 xl:gap-8">
           {results.map((service) => (
             <ServiceCard
               key={service.id}
@@ -223,11 +237,12 @@ function ExploreContent() {
               selected={compareIds.includes(service.id)}
               onToggleSelect={() => toggleCompare(service.id)}
               onExplore={() => setDrawerService(service)}
-              onBook={() => book(service)}
             />
           ))}
         </div>
       )}
+
+      </div>
 
       <ServiceDetailsDrawer
         service={drawerService}
@@ -244,7 +259,7 @@ function ExploreContent() {
         open={compareOpen}
         onClose={() => setCompareOpen(false)}
       />
-    </div>
+    </>
   );
 }
 

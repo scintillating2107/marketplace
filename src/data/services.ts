@@ -14,58 +14,58 @@ export const categories: ServiceCategory[] = [
   {
     id: "cleaning",
     title: "Cleaning",
-    description: "Deep cleans, bathroom & kitchen specialists",
+    description: "Deep cleans, bathroom & kitchen specialists — one-time and recurring slots.",
     image:
       "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop",
   },
   {
     id: "electricians",
     title: "Electricians",
-    description: "Wiring, fixtures & safety checks",
+    description: "Certified help for wiring, MCB trips, fans, and light fixtures.",
     image:
       "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=600&h=400&fit=crop",
   },
   {
     id: "plumbing",
     title: "Plumbing",
-    description: "Leaks, taps, drains & inspections",
+    description: "Leaks, taps, drains, and inspection visits with upfront quotes.",
     image:
-      "https://images.unsplash.com/photo-1585704032915-c3400ca27e27?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85f608?w=600&h=400&fit=crop&q=80",
   },
   {
     id: "appliance",
     title: "Appliance Repair",
-    description: "Fridge, washer & microwave fixes",
+    description: "Fridge, washer, microwave, and stove repairs at home.",
     image:
       "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?w=600&h=400&fit=crop",
   },
   {
     id: "ac",
     title: "AC Services",
-    description: "Servicing, gas refill & repairs",
+    description: "Seasonal servicing, gas checks, and cooling diagnostics.",
     image:
       "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop",
   },
   {
     id: "beauty",
     title: "Beauty & Wellness",
-    description: "Salon at home & spa rituals",
+    description: "Salon at home, spa rituals, and grooming with hygienic kits.",
     image:
       "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop",
   },
   {
     id: "pest",
     title: "Pest Control",
-    description: "Safe treatments for home pests",
+    description: "Odour-safe treatments for roaches, ants, and common pests.",
     image:
       "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&h=400&fit=crop",
   },
   {
     id: "carpentry",
     title: "Carpentry",
-    description: "Furniture, doors & custom fixes",
+    description: "Doors, hinges, furniture fixes, and lock installations.",
     image:
-      "https://images.unsplash.com/photo-1581858723640-188c4e0ecbf1?w=600&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1504144916096-96229a517ea8?w=600&h=400&fit=crop",
   },
 ];
 
@@ -75,14 +75,22 @@ const defaultReviews = (serviceName: string) => [
     author: "Priya M.",
     rating: 5,
     date: "2025-09-12",
-    comment: `Professional and punctual. ${serviceName} was done exactly as described.`,
+    comment: `Professional and punctual. ${serviceName} was done exactly as described — the team walked me through each step and left the space tidy. Would use SERVORA again in a real launch.`,
   },
   {
     id: "r2",
     author: "Rahul K.",
     rating: 4,
     date: "2025-08-28",
-    comment: "Clear pricing upfront. Would book again.",
+    comment:
+      "Clear pricing upfront with a neat breakdown of labour, add-ons, and tax. The demo professional arrived within the estimated window shown at booking.",
+  },
+  {
+    id: "r3",
+    author: "Neha T.",
+    rating: 5,
+    date: "2025-07-03",
+    comment: `Quality felt consistent with the photos and checklist. ${serviceName} matched the package inclusions — sample review for prototype purposes.`,
   },
 ];
 
@@ -93,7 +101,7 @@ export const services: Service[] = [
     title: "Full Home Deep Cleaning",
     shortDescription: "Intensive clean for every room with eco-friendly products.",
     fullDescription:
-      "Our deep cleaning service covers living areas, bedrooms, kitchen, and bathrooms with detailed attention to corners, surfaces, and high-touch points. Ideal before festivals or after renovations.",
+      "Our deep cleaning service covers living areas, bedrooms, kitchen, and bathrooms with detailed attention to corners, surfaces, and high-touch points. Ideal before festivals or after renovations. Trained two-person crews bring consumables; you only provide water and power. This listing uses sample copy and pricing for the SERVORA prototype.",
     categoryId: "cleaning",
     image:
       "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800&h=600&fit=crop",
@@ -208,7 +216,7 @@ export const services: Service[] = [
       "A plumber inspects leaking taps, valves, and connections, then recommends the most cost-effective fix before any extra work.",
     categoryId: "plumbing",
     image:
-      "https://images.unsplash.com/photo-1585704032915-c3400ca27e27?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85f608?w=800&h=600&fit=crop&q=80",
     startingPrice: 199,
     durationMinutes: 45,
     rating: 4.81,
@@ -238,7 +246,7 @@ export const services: Service[] = [
       "Mechanical and eco-safe methods to restore flow in sinks and floor drains without damaging pipes.",
     categoryId: "plumbing",
     image:
-      "https://images.unsplash.com/photo-1585704032915-c3400ca27e27?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1581244270373-ac4097af1e31?w=800&h=600&fit=crop",
     startingPrice: 349,
     durationMinutes: 60,
     rating: 4.74,
@@ -432,7 +440,7 @@ export const services: Service[] = [
       "Skilled carpenters fix alignment issues, install hardware, and restore functional furniture without full replacements.",
     categoryId: "carpentry",
     image:
-      "https://images.unsplash.com/photo-1581858723640-188c4e0ecbf1?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1504144916096-96229a517ea8?w=800&h=600&fit=crop",
     startingPrice: 299,
     durationMinutes: 90,
     rating: 4.75,
@@ -462,7 +470,7 @@ export const services: Service[] = [
       "Extract dirt and allergens from upholstery using professional-grade equipment.",
     categoryId: "cleaning",
     image:
-      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=800&h=600&fit=crop",
+      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=600&fit=crop",
     startingPrice: 999,
     durationMinutes: 120,
     rating: 4.8,
@@ -500,6 +508,7 @@ export const professionals: Professional[] = [
     availability: "today",
     arrivalEstimate: "60–90 min",
     categoryIds: ["ac", "appliance", "electricians"],
+    bio: "Former facility manager turned full-time AC specialist. Focuses on diagnostic-first visits and energy-efficient cooling.",
   },
   {
     id: "pro-2",
@@ -515,6 +524,7 @@ export const professionals: Professional[] = [
     availability: "tomorrow",
     arrivalEstimate: "Morning slot",
     categoryIds: ["cleaning", "pest"],
+    bio: "Leads a small team trained on eco-friendly chemicals and post-service checklists for family homes.",
   },
   {
     id: "pro-3",
@@ -530,6 +540,7 @@ export const professionals: Professional[] = [
     availability: "today",
     arrivalEstimate: "45–75 min",
     categoryIds: ["plumbing"],
+    bio: "Nine years handling urban apartments — specialises in concealed leaks and low-pressure diagnostics.",
   },
   {
     id: "pro-4",
@@ -545,6 +556,7 @@ export const professionals: Professional[] = [
     availability: "this_week",
     arrivalEstimate: "As per slot",
     categoryIds: ["beauty"],
+    bio: "Salon stylist with portfolio in bridal and everyday cuts; carries single-use kits for at-home visits.",
   },
   {
     id: "pro-5",
@@ -560,6 +572,7 @@ export const professionals: Professional[] = [
     availability: "tomorrow",
     arrivalEstimate: "Afternoon",
     categoryIds: ["carpentry"],
+    bio: "Fine-joinery background; handles alignment, hinge swaps, and custom shelf installs in rental-friendly ways.",
   },
   {
     id: "pro-6",
@@ -575,6 +588,7 @@ export const professionals: Professional[] = [
     availability: "today",
     arrivalEstimate: "30–60 min",
     categoryIds: ["electricians"],
+    bio: "Licensed electrician for residential switchboards, ceiling fans, and surge-related tripping issues.",
   },
 ];
 

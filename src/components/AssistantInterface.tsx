@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { ASSISTANT_PROMPTS } from "@/data/services";
-import { recommendFromProblem, formatINR } from "@/lib/booking";
+import { getRecommendations } from "@/app/actions/recommendations";
+import { formatINR } from "@/lib/booking";
 import type { RecommendationResult } from "@/types";
 import { MatchExplanation } from "@/components/MatchExplanation";
 import { ServiceCard } from "@/components/ServiceCard";
@@ -43,8 +44,7 @@ export function AssistantInterface({ initialQuery = "" }: Props) {
     setLoading(true);
     setMessages((m) => [...m, { role: "user", text: q }]);
 
-    setTimeout(() => {
-      const rec = recommendFromProblem(q);
+    void getRecommendations(q).then((rec) => {
       setResult(rec);
       setMessages((m) => [
         ...m,
@@ -54,7 +54,7 @@ export function AssistantInterface({ initialQuery = "" }: Props) {
         },
       ]);
       setLoading(false);
-    }, 400);
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -75,8 +75,8 @@ export function AssistantInterface({ initialQuery = "" }: Props) {
         <div className="max-h-[320px] space-y-4 overflow-y-auto rounded-[var(--radius-card)] border border-border bg-surface p-4">
           {messages.length === 0 && (
             <p className="text-sm text-muted">
-              Try describing a problem — we use a rule-based matcher (not live AI) to suggest
-              services transparently.
+              Try describing a problem — matching runs on the server with the same transparent
+              rule-based engine (not a live LLM).
             </p>
           )}
           {messages.map((msg, i) => (
@@ -142,7 +142,6 @@ export function AssistantInterface({ initialQuery = "" }: Props) {
                     service={service}
                     compact
                     onExplore={() => router.push(`/explore?q=${encodeURIComponent(service.title)}`)}
-                    onBook={() => router.push(`/book?serviceId=${service.id}`)}
                   />
                   <p className="text-xs text-muted">{reason}</p>
                   <p className="text-xs font-medium text-primary">
